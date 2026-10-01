@@ -1,0 +1,335 @@
+{
+  "checked_at": "2026-10-01T17:21:12Z",
+  "results": [
+    {
+      "url": "https://arxiv.org/abs/1803.10122",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/1803.10122",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/1811.04551",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/1811.04551",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/1912.01603",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/1912.01603",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2002.09405",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2002.09405",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2002.09405v2",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2002.09405v2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2102.11107",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2102.11107",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2301.04104",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2301.04104",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2301.08243",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2301.08243",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2310.16828",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2310.16828",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.15391",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2402.15391",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.15391v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2402.15391v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2404.08471",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2404.08471",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2405.12399",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2405.12399",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.08848",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2501.08848",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.08848v3",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2501.08848v3",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2506.09985",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2506.09985",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2509.24527",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2509.24527",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.14482",
+      "status": 200,
+      "final_url": "https://arxiv.org/abs/2603.14482",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2402.15391v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2402.15391v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2404.08471v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2404.08471v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2405.12399v2",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2405.12399v2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#A1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#A1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S3",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S3",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S3.SS2",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S3.SS2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S4",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S4",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S5",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S5",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S5.SS1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S5.SS1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S5.SS2.SSS2",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S5.SS2.SSS2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S5.SS3",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S5.SS3",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S6",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S6",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2501.08848v3#S6.SS2",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2501.08848v3#S6.SS2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2506.09985v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2506.09985v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2509.24527v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2509.24527v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/html/2603.14482v3",
+      "status": 200,
+      "final_url": "https://arxiv.org/html/2603.14482v3",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2002.09405v2",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2002.09405v2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://arxiv.org/pdf/2509.24527v1",
+      "status": 200,
+      "final_url": "https://arxiv.org/pdf/2509.24527v1",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://danijar.com/project/dreamer4/",
+      "status": 200,
+      "final_url": "https://danijar.com/project/dreamer4/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://danijar.com/project/dreamerv3/",
+      "status": 200,
+      "final_url": "https://danijar.com/project/dreamerv3/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/",
+      "status": 200,
+      "final_url": "https://deepmind.google/blog/genie-3-a-new-frontier-for-world-models/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://diamond-wm.github.io/",
+      "status": 200,
+      "final_url": "https://diamond-wm.github.io/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://doi.org/10.1109/TON.2026.3668972",
+      "status": 202,
+      "final_url": "https://ieeexplore.ieee.org/document/11417312/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/BNN-UPC/RouteNet-Gauss",
+      "status": 200,
+      "final_url": "https://github.com/BNN-UPC/RouteNet-Gauss",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/arXiv/arxiv-browse/blob/develop/browse/static/images/arxiv-logo-one-color-white.svg",
+      "status": 200,
+      "final_url": "https://github.com/arXiv/arxiv-browse/blob/develop/browse/static/images/arxiv-logo-one-color-white.svg",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/danijar/dreamerv3",
+      "status": 200,
+      "final_url": "https://github.com/danijar/dreamerv3",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/eloialonso/diamond",
+      "status": 200,
+      "final_url": "https://github.com/eloialonso/diamond",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/facebookresearch/jepa",
+      "status": 200,
+      "final_url": "https://github.com/facebookresearch/jepa",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/facebookresearch/vjepa2",
+      "status": 200,
+      "final_url": "https://github.com/facebookresearch/vjepa2",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/google-deepmind/deepmind-research/tree/master/learning_to_simulate",
+      "status": 200,
+      "final_url": "https://github.com/google-deepmind/deepmind-research/tree/master/learning_to_simulate",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/primer/octicons/blob/main/icons/mark-github-16.svg",
+      "status": 200,
+      "final_url": "https://github.com/primer/octicons/blob/main/icons/mark-github-16.svg",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://proceedings.mlr.press/v119/sanchez-gonzalez20a.html",
+      "status": 200,
+      "final_url": "https://proceedings.mlr.press/v119/sanchez-gonzalez20a.html",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/BNN-UPC/RouteNet-Gauss/main/README.md",
+      "status": 200,
+      "final_url": "https://raw.githubusercontent.com/BNN-UPC/RouteNet-Gauss/main/README.md",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/google-deepmind/deepmind-research/master/learning_to_simulate/README.md",
+      "status": 200,
+      "final_url": "https://raw.githubusercontent.com/google-deepmind/deepmind-research/master/learning_to_simulate/README.md",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://sites.google.com/view/genie-2024/home",
+      "status": 200,
+      "final_url": "https://sites.google.com/view/genie-2024/home",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://www.nature.com/articles/s41586-025-08744-2",
+      "status": 200,
+      "final_url": "https://www.nature.com/articles/s41586-025-08744-2?error=cookies_not_supported&code=3d77f51a-a1ae-44d8-ae0b-f4508450e2d6",
+      "method": "HEAD"
+    }
+  ]
+}

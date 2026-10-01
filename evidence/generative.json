@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "route": "generative-interactive-simulation",
+  "verified_on": "2026-10-01",
+  "verification_method": "Read original arXiv HTML and version metadata; cross-check official project pages and DIAMOND author's GitHub README.",
+  "independent_reproduction": false,
+  "private_material_used": false,
+  "sources": [
+    {
+      "id": "diamond-paper",
+      "title": "Diffusion for World Modeling: Visual Details Matter in Atari",
+      "original_url": "https://arxiv.org/abs/2405.12399",
+      "read_url": "https://arxiv.org/html/2405.12399v2",
+      "version": "arXiv:2405.12399v2",
+      "version_date": "2024-10-30",
+      "first_submission_date": "2024-05-20",
+      "checked_on": "2026-10-01",
+      "status": "verified_primary_full_text",
+      "locations_read": ["Figure 1", "Sections 2.3, 3.1, 3.2", "Sections 4.1 and 4.2; Table 1; Figure 2", "Sections 5.1-5.3; Figures 3-5", "Section 6; Figure 6 and section footnote", "Section 8"]
+    },
+    {
+      "id": "diamond-project",
+      "title": "DIAMOND official project",
+      "original_url": "https://diamond-wm.github.io/",
+      "read_url": "https://diamond-wm.github.io/",
+      "version": "Live official project page; no immutable revision published by page",
+      "checked_on": "2026-10-01",
+      "status": "verified_primary_live_page",
+      "locations_read": ["How does it work?", "Scaling to CS:GO", "Limitations"]
+    },
+    {
+      "id": "diamond-code",
+      "title": "eloialonso/diamond official repository",
+      "original_url": "https://github.com/eloialonso/diamond",
+      "read_url": "https://github.com/eloialonso/diamond",
+      "version": "Live README on default branch; commit not pinned in this content audit",
+      "checked_on": "2026-10-01",
+      "status": "verified_primary_readme_only_not_executed",
+      "locations_read": ["Try our playable diffusion world models", "Launch a training run", "Visualization", "Results", "License summary"]
+    },
+    {
+      "id": "genie-paper",
+      "title": "Genie: Generative Interactive Environments",
+      "original_url": "https://arxiv.org/abs/2402.15391",
+      "read_url": "https://arxiv.org/html/2402.15391v1",
+      "version": "arXiv:2402.15391v1",
+      "version_date": "2024-02-23",
+      "checked_on": "2026-10-01",
+      "status": "verified_primary_full_text",
+      "locations_read": ["Sections 2.1 and 2.2; Figures 2, 4-7", "Section 3 Datasets, Metrics, Training Details", "Sections 3.1 and 3.2; Figures 8-12", "Section 3.3; Figure 14", "Section 3.4; Tables 2-3", "Section 5 and Broader Impact", "Appendices B-D; Appendix F description"]
+    },
+    {
+      "id": "genie-project",
+      "title": "Genie 2024 official project",
+      "original_url": "https://sites.google.com/view/genie-2024/home",
+      "read_url": "https://sites.google.com/view/genie-2024/home",
+      "version": "Live official project page for 2024 paper; no immutable revision published by page",
+      "checked_on": "2026-10-01",
+      "status": "verified_primary_live_page",
+      "locations_read": ["A Foundation Model for Playable Worlds", "Learning to control without action labels", "Enabling a new generation of creators", "A stepping stone for generalist agents", "The future of generative virtual worlds"]
+    }
+  ],
+  "claims": [
+    {"id":"D01","claim":"Recorded actions condition pixel-space diffusion; reward/termination are separate; actor-critic learns in imagination with real interaction used for collection.","source_ids":["diamond-paper"],"evidence_location":"Sections 2.3 and 3; Figure 1","status":"verified_author_report"},
+    {"id":"D02","claim":"Atari 100k: 26 games, 100k environment actions per game, 5 seeds; approximately 2.9 days per run on RTX 4090.","source_ids":["diamond-paper"],"evidence_location":"Section 4.1","status":"verified_author_report","qualification":"100k denotes environment actions in the paper; do not equate to raw frames or compute budget."},
+    {"id":"D03","claim":"Mean HNS 1.459, IQM 0.641, 11 games above human baseline.","source_ids":["diamond-paper"],"evidence_location":"Table 1; Figure 2; Section 4.2","status":"verified_author_report","qualification":"Historical paper result within stated benchmark and comparator scope; not a current global SOTA claim."},
+    {"id":"D04","claim":"Three denoising steps and illustrated multi-modal single-step failure.","source_ids":["diamond-project","diamond-paper"],"evidence_location":"Official project How does it work; paper Section 5.2 and Figure 4","status":"verified_author_report"},
+    {"id":"D05","claim":"Static CS:GO training; 87 hours; two-stage generation; no RL; approximately 10 FPS demonstration.","source_ids":["diamond-project","diamond-paper"],"evidence_location":"Official project Scaling to CS:GO; paper Section 6","status":"verified_author_report"},
+    {"id":"D06","claim":"Section 6 added after NeurIPS acceptance; quantitative measurement of CS:GO capabilities left to future work.","source_ids":["diamond-paper"],"evidence_location":"Section 6 footnote and final paragraph","status":"verified_explicit_scope_limit","qualification":"Appendix M does contain separate earlier visual comparisons; do not state that the entire paper lacks all quantitative CS:GO visual metrics."},
+    {"id":"D07","claim":"Limited memory and insufficient repeated-jump coverage produce invalid successive jumps.","source_ids":["diamond-project","diamond-paper"],"evidence_location":"Official project Limitations; paper Section 6","status":"verified_author_report"},
+    {"id":"D08","claim":"Official repository exposes pre-trained interaction, training configuration and per-game/per-seed result file.","source_ids":["diamond-code"],"evidence_location":"README Try our playable diffusion world models; Configuration; Results","status":"verified_documentation_only","qualification":"No code execution or independent reproduction performed."},
+    {"id":"G01","claim":"LAM infers latent actions using history and observed next frame during training; inference instead receives player-selected codes.","source_ids":["genie-paper"],"evidence_location":"Sections 2.1 and 2.2; Figures 4 and 7","status":"verified_author_method","qualification":"Temporal causal attention mask does not establish causal identification."},
+    {"id":"G02","claim":"Video tokenizer followed by token dynamics with MaskGIT; tokenizer first, then LAM/dynamics; VQ action codebook size 8.","source_ids":["genie-paper"],"evidence_location":"Section 2.1; Figures 2, 5, 6; Section 3 Training Details","status":"verified_author_method"},
+    {"id":"G03","claim":"Curated Platformers data approximately 30,000 hours; 160x90 at 10 FPS; training sequences 16 frames; model approximately 11B.","source_ids":["genie-paper"],"evidence_location":"Section 3 Datasets/Training Details; Section 3.1 Genie Model; Appendices B-D","status":"verified_author_report","qualification":"Paper describes total 10.7B rounded as 11B; curated source clips are 16 seconds, training sequences are 16 frames. Do not conflate these."},
+    {"id":"G04","claim":"FVD evaluates generated video; delta PSNR evaluates effect of inferred vs random latent action, reported at t=4.","source_ids":["genie-paper"],"evidence_location":"Section 3 Metrics","status":"verified_author_metric","qualification":"Neither metric alone establishes true intervention effects or production safety."},
+    {"id":"G05","claim":"CoinRun behavioral cloning: expert videos receive frozen-LAM labels; small ground-truth action set maps latent codes to real actions; Figure 14 reports 5 seeds and 200-example adaptation result.","source_ids":["genie-paper"],"evidence_location":"Section 3.3; Figure 14; Appendix E","status":"verified_author_report","qualification":"200 samples concern adaptation mapping, not all model/agent training. Not general RL training inside generated Genie worlds."},
+    {"id":"G06","claim":"Image/synthetic/sketch prompting and 2.5B action-free robotics video model appear in the official 2024 project.","source_ids":["genie-project"],"evidence_location":"Enabling a new generation of creators; The future of generative virtual worlds","status":"verified_author_demonstration","qualification":"Text examples may use Imagen2 to create an initial image; do not treat all core modules as text-conditioned."},
+    {"id":"G07","claim":"Original model around 1 FPS with 16-frame memory; original paper reports unrealistic future hallucinations.","source_ids":["genie-paper"],"evidence_location":"Section 5 Conclusion and Future Work","status":"verified_explicit_limitation","qualification":"Version-specific statement, not a claim about later Genie versions."},
+    {"id":"G08","claim":"Original v1 did not accompany paper with model checkpoints/training data; Appendix F describes a smaller reproducible case study.","source_ids":["genie-paper"],"evidence_location":"Broader Impact Training Data and Weights; Reproducibility; Appendix F","status":"verified_version_specific_release_statement","qualification":"No independent main-model or case-study reproduction; does not assert no later release exists."},
+    {"id":"I01","claim":"IT transfer needs operational semantics, aligned action/outcome trajectories and validation of constraints; visual quality and latent controllability do not establish intervention identification.","source_ids":[],"evidence_location":"Site-authored analysis based on the two papers' mechanisms and reported evidence scope","status":"editorial_inference_not_demonstrated_by_papers"}
+  ],
+  "diagrams": [
+    {"id":"generative-loop","type":"original_mermaid_concept_diagram","basis":"conditional generation and autoregressive feedback","source_ids":["diamond-paper","genie-paper"],"experimental_result":false},
+    {"id":"diamond-pipeline","type":"original_mermaid_method_diagram","basis":"DIAMOND Figure 1 and Section 3.2","source_ids":["diamond-paper"],"experimental_result":false},
+    {"id":"genie-pipeline","type":"original_mermaid_method_diagram","basis":"Genie Figures 2, 4 and 7","source_ids":["genie-paper"],"experimental_result":false}
+  ],
+  "remaining_evidence_limits": [
+    "No independent reproduction or execution.",
+    "No IT/cloud intervention, recovery, or production-safety experiments were found in the two scoped papers; site transfer discussion is analysis.",
+    "Live project/README citations are verified at reading date but not immutable snapshots.",
+    "arXiv PDF tool failed for Genie; original versioned arXiv full HTML was successfully read. No PDF-only visual inspection performed."
+  ]
+}

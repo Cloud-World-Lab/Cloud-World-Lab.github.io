@@ -5,4 +5,5 @@ node_modules/
 .env
 .env.*
 qa/screenshots/
+qa/browser-report.json
 *.log

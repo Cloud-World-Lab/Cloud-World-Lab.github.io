@@ -1,0 +1,535 @@
+{
+  "schema_version": 1,
+  "route": "structured_dynamics",
+  "verified_on": "2026-10-01",
+  "scope": "公开学习网站：结构化动力学路线、GNS与RouteNet-Gauss导读",
+  "verification_method": [
+    "原始论文全文文本阅读",
+    "arXiv版本与出版元数据核验",
+    "官方代码README核验"
+  ],
+  "reproduction": {
+    "performed": false,
+    "note": "未下载数据、未运行模型、未训练、未复现实验；文档核验不等于复现。"
+  },
+  "sources": [
+    {
+      "id": "gns_arxiv_v2",
+      "title": "Learning to Simulate Complex Physics with Graph Networks",
+      "url": "https://arxiv.org/abs/2002.09405v2",
+      "full_text_url": "https://arxiv.org/pdf/2002.09405v2",
+      "version": "arXiv 2002.09405v2，2020-09-14",
+      "first_submitted": "2020-02-21",
+      "read_scope": "正文§1–6；Tables 1、Figs.2–4；补充B.3、C.3和D的相关文本",
+      "verified_on": "2026-10-01",
+      "status": "verified_primary"
+    },
+    {
+      "id": "gns_pmlr",
+      "title": "ICML 2020 / PMLR conference record",
+      "url": "https://proceedings.mlr.press/v119/sanchez-gonzalez20a.html",
+      "version": "PMLR 119:8459–8468 (2020)，出版记录页面",
+      "read_scope": "作者、会议、卷、页码、Software链接",
+      "verified_on": "2026-10-01",
+      "status": "verified_primary"
+    },
+    {
+      "id": "gns_code_readme",
+      "title": "Google DeepMind learning_to_simulate README",
+      "url": "https://github.com/google-deepmind/deepmind-research/tree/master/learning_to_simulate",
+      "read_url": "https://raw.githubusercontent.com/google-deepmind/deepmind-research/master/learning_to_simulate/README.md",
+      "version": "master，2026-10-01访问；未固定commit",
+      "read_scope": "数据、代码结构、参考实现与TPU差异的说明",
+      "verified_on": "2026-10-01",
+      "status": "verified_official_documentation",
+      "execution_status": "not_executed"
+    },
+    {
+      "id": "routenet_arxiv_v3",
+      "title": "RouteNet-Gauss: Hardware-Enhanced Network Modeling with Machine Learning",
+      "url": "https://arxiv.org/abs/2501.08848v3",
+      "full_text_url": "https://arxiv.org/pdf/2501.08848v3",
+      "html_url": "https://arxiv.org/html/2501.08848v3",
+      "version": "arXiv 2501.08848v3，2026-03-12，已接收作者稿",
+      "first_submitted": "2025-01-15",
+      "journal_reference": "IEEE Transactions on Networking 34 (2026):3840–3853",
+      "read_scope": "§I–VI；Algorithms1–2；TablesIII–VIII；Figs.3–5、9–10；AppendixA",
+      "verified_on": "2026-10-01",
+      "status": "verified_primary_author_manuscript",
+      "note": "出版信息由arXiv记录与DOI解析核验；未读取期刊最终排版全文。"
+    },
+    {
+      "id": "routenet_doi",
+      "title": "IEEE Transactions on Networking DOI resolution",
+      "url": "https://doi.org/10.1109/TON.2026.3668972",
+      "resolved_url": "https://ieeexplore.ieee.org/document/11417312/",
+      "version": "DOI 10.1109/TON.2026.3668972",
+      "verified_on": "2026-10-01",
+      "status": "doi_resolved_publisher_full_text_not_read"
+    },
+    {
+      "id": "routenet_official_wiki",
+      "title": "BNN-UPC RouteNet-Gauss project wiki",
+      "url": "https://github.com/BNN-UPC/Papers/wiki/RouteNet_Gauss",
+      "version": "2026-10-01访问；未固定wiki提交",
+      "read_scope": "论文项目归属和官方代码链接",
+      "verified_on": "2026-10-01",
+      "status": "verified_official_project"
+    },
+    {
+      "id": "routenet_code_readme",
+      "title": "BNN-UPC/RouteNet-Gauss README",
+      "url": "https://github.com/BNN-UPC/RouteNet-Gauss",
+      "read_url": "https://raw.githubusercontent.com/BNN-UPC/RouteNet-Gauss/main/README.md",
+      "version": "main，2026-10-01访问；未固定commit",
+      "read_scope": "checkpoint、normalization、模型与数据分片；filtered训练子集说明",
+      "verified_on": "2026-10-01",
+      "status": "verified_official_documentation",
+      "execution_status": "not_executed"
+    }
+  ],
+  "claims": [
+    {
+      "id": "gns_metadata",
+      "claim": "首发2020；ICML2020；PMLR119:8459–8468；读取arXivv2(2020-09-14)。",
+      "source_ids": [
+        "gns_arxiv_v2",
+        "gns_pmlr"
+      ],
+      "locations": [
+        "arXiv submission history",
+        "PMLR citation record"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_architecture",
+      "claim": "粒子图encode-process-decode输出加速度，Euler积分更新，rollout各步按新位置重建近邻边。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§3.1–3.2",
+        "§4.2",
+        "Fig.2"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_default",
+      "claim": "输入包含过去5个速度和材料属性；默认相对位置encoder、10轮消息传递、各轮processor参数不共享。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§4.2",
+        "§5 introductory paragraph"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_datasets",
+      "claim": "数据来自FleX、SPlisHSPlasH、Taichi-MPM；通常1000/100/100轨迹，具体域应查补充材料。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§4.1",
+        "SupplementaryB"
+      ],
+      "status": "verified",
+      "boundary": "不是生产IT事故轨迹"
+    },
+    {
+      "id": "gns_training",
+      "claim": "监督单步有限差分加速度，L2损失，速度历史随机游走噪声；调整位置和目标以保持一致并学习修正速度噪声。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§4.3",
+        "SupplementaryB.3"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_parameters",
+      "claim": "相同架构多数域分别训练；MULTIMATERIAL专门展示单组权重的多材料交互。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§5.1",
+        "§5.2"
+      ],
+      "status": "verified",
+      "boundary": "不能声称所有域用同一模型权重"
+    },
+    {
+      "id": "gns_metrics",
+      "claim": "Table1是留出轨迹的一步/rollout粒子MSE；另评估OT、MMD；分布外例子与同分布定量评估需区分。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§4.4",
+        "Table1",
+        "SupplementaryC.3"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_scale",
+      "claim": "WATERRAMPS大域例子达到85k粒子、5000步；训练约2.5k粒子、600步。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§5.3",
+        "Fig.3(h)"
+      ],
+      "status": "verified",
+      "boundary": "这是特定场景的泛化展示，不是任意域误差保证"
+    },
+    {
+      "id": "gns_ablation",
+      "claim": "消息传递、相对位置与适当训练噪声影响rollout；噪声增大可损害单步误差。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§5.4",
+        "Fig.4(a,b,g,h,i,j)"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "gns_cconv",
+      "claim": "作者在六个比较域报告默认GNS rollout精度优于其测试的CConv变体。",
+      "source_ids": [
+        "gns_arxiv_v2"
+      ],
+      "locations": [
+        "§5.5",
+        "Fig.4(m)"
+      ],
+      "status": "verified",
+      "boundary": "历史论文比较，不能称2026全领域SOTA"
+    },
+    {
+      "id": "gns_reference_code",
+      "claim": "官方README给数据与rollout入口，明示reference implementation不是论文TPU扩展实现。",
+      "source_ids": [
+        "gns_code_readme"
+      ],
+      "locations": [
+        "Datasets",
+        "Code structure",
+        "final note"
+      ],
+      "status": "verified_documentation_only"
+    },
+    {
+      "id": "routenet_metadata",
+      "claim": "2025首发、2026v3；v3为已接收作者稿；arXiv记录IEEE TON34(2026)3840–3853。",
+      "source_ids": [
+        "routenet_arxiv_v3",
+        "routenet_doi"
+      ],
+      "locations": [
+        "arXiv version history",
+        "journal reference",
+        "PDF first-page acceptance notice",
+        "DOI redirect"
+      ],
+      "status": "verified",
+      "boundary": "未将作者稿称为期刊最终排版稿"
+    },
+    {
+      "id": "routenet_extended_graph",
+      "claim": "扩展图显式表达流、队列、链路、设备交互；同类型编码更新模块共享参数；GRU消息传递、MLP读出。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§III-A",
+        "§III-C",
+        "Fig.3",
+        "Algorithms1–2"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_time",
+      "claim": "TAPE划窗；每窗流与链路按可测特征重新初始化；队列与设备最终隐状态传给下一窗。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§III-B",
+        "Algorithm1",
+        "TableIII"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_od",
+      "claim": "本文实验以同路径OD-flow聚合，输出per-flow per-window性能。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§III-A",
+        "§V-B"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_testbed",
+      "claim": "8台Huawei NetEngine8000M1A路由器、2台交换机；可配置至多8路由节点拓扑并采集硬件时间戳。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§IV",
+        "Fig.4"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_datasets",
+      "claim": "TREX-S、TREX-MB、MAWI分布回放RWPT；三个数据集各含11个5–8节点拓扑。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§V-B",
+        "TableIV",
+        "AppendixB"
+      ],
+      "status": "verified",
+      "boundary": "RWPT来自真实流量分布回放，标签来自测试床，不是生产事故"
+    },
+    {
+      "id": "routenet_default",
+      "claim": "100ms窗口、32维隐状态、8轮消息传递、Adam、MAPE损失。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "AppendixA",
+        "TableVIII"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_targets",
+      "claim": "实际性能评估重点为delay和jitter的均值、中位数、p90/p95/p99。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§V-B",
+        "TablesV–VII"
+      ],
+      "status": "verified",
+      "boundary": "讨论支持丢包等输出不等于完成相同程度实验证据"
+    },
+    {
+      "id": "routenet_synthetic_delay",
+      "claim": "TREX-S平均delay MAPE为RouteNet-G2.604%、OMNeT++53.684%。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "TableV"
+      ],
+      "status": "verified_table"
+    },
+    {
+      "id": "routenet_rwpt_average_delay",
+      "claim": "RWPT平均delay MAPE为12.990% vs55.808%；R²为0.080 vs0.939。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "TableVII，PDF第9页"
+      ],
+      "status": "verified_table",
+      "note": "以表格数字为准，不复述正文未明确对应目标的整体降幅。"
+    },
+    {
+      "id": "routenet_rwpt_tail",
+      "claim": "RWPT p99delay MAE为270.073µs vs91.492µs；MAPE为30.016% vs28.182%，两项OMNeT++更好。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "TableVII，PDF第9页"
+      ],
+      "status": "verified_table",
+      "boundary": "平均延迟胜出不能概括为尾部延迟更好"
+    },
+    {
+      "id": "routenet_rwpt_jitter",
+      "claim": "RWPT平均jitter MAPE为12.773% vs9.399%，OMNeT++更好。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "TableVII，PDF第9页",
+        "§V-B2"
+      ],
+      "status": "verified_table"
+    },
+    {
+      "id": "routenet_scale",
+      "claim": "大拓扑实验训练与测试均使用仿真样本，5–8节点训练、至110节点测试，TREX-MB分布，MAPE约5–7%。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§V-C",
+        "Fig.9"
+      ],
+      "status": "verified",
+      "boundary": "不是110节点真实硬件部署验证"
+    },
+    {
+      "id": "routenet_speed",
+      "claim": "50M包对比场景中推理约2.4秒、对DONS约488×；RouteNet-G及主要DES基线单线程，DQN4GPUs；虚线含外推。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§V-A",
+        "Fig.5"
+      ],
+      "status": "verified",
+      "boundary": "特定已训练模型推理对比，不包含采集和训练成本；图大小/窗数仍影响成本"
+    },
+    {
+      "id": "routenet_udp",
+      "claim": "实验证据为UDP；TCP支持需要额外数据与输入，仍属讨论。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§VI-C"
+      ],
+      "status": "verified_explicit_limitation"
+    },
+    {
+      "id": "routenet_hardware",
+      "claim": "模型依赖特定路由器交换机的训练数据，新制造商或转发技术通常需要额外训练。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§VI-D"
+      ],
+      "status": "verified_explicit_limitation"
+    },
+    {
+      "id": "routenet_window",
+      "claim": "假定窗口内近似平稳；更小窗成本更高；跨时间尺度需要重训，10ms不能直接外推1ms。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§VI-E",
+        "§V-D",
+        "Fig.10"
+      ],
+      "status": "verified_explicit_limitation"
+    },
+    {
+      "id": "routenet_path_length",
+      "claim": "大拓扑实验训练路由最多5个路由器，110节点场景最多6个；节点规模外推不等于路径同倍数外推。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§VI-A2"
+      ],
+      "status": "verified"
+    },
+    {
+      "id": "routenet_traffic_scale",
+      "claim": "带宽与包速率输入仍尺度相关，明显不同流量分布可能困难。",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§VI-B"
+      ],
+      "status": "verified_explicit_limitation"
+    },
+    {
+      "id": "routenet_code_data",
+      "claim": "官方README提供权重、归一化、数据分片与评估notebook，区分simulated数据和部分delay训练的filtered子集。",
+      "source_ids": [
+        "routenet_code_readme"
+      ],
+      "locations": [
+        "Repository structure",
+        "Datasets information"
+      ],
+      "status": "verified_documentation_only"
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "route_overlap",
+      "claim": "结构化动力学是问题入口，可与预测表征、生成式模拟和决策重叠；不是互斥算法分类。",
+      "status": "editorial_definition"
+    },
+    {
+      "id": "graph_causality",
+      "claim": "图结构和消息传递不自动给出干预效应识别。",
+      "status": "research_interpretation",
+      "basis": "所读论文未提供从观测数据识别IT恢复干预效应的实验或识别论证。"
+    },
+    {
+      "id": "gns_it",
+      "claim": "粒子邻近规则不能直接当作服务拓扑规则；需要重新定义实体、关系、状态、动作与时间尺度。",
+      "status": "it_transfer_hypothesis_not_demonstrated"
+    },
+    {
+      "id": "routenet_future_inputs",
+      "claim": "RouteNet-Gauss给定当前各窗流量特征预测性能，不是本文已证明的自主未来流量生成器。",
+      "status": "method_scope_interpretation",
+      "source_ids": [
+        "routenet_arxiv_v3"
+      ],
+      "locations": [
+        "§III-B",
+        "TableIII",
+        "§VI-E"
+      ]
+    },
+    {
+      "id": "network_to_full_stack",
+      "claim": "网络流性能预测不能单独证明全栈事故反事实和生产恢复安全。",
+      "status": "scope_boundary_not_demonstrated"
+    },
+    {
+      "id": "rca_labels",
+      "claim": "RCA根因标签不能替代多候选动作、动作前后时序状态与恢复轨迹。",
+      "status": "dataset_semantics_warning",
+      "note": "本文未为某个具体RCA数据集追加未核验事实。"
+    },
+    {
+      "id": "evaluation_next",
+      "claim": "隔离动作实验、尾部目标、未知硬件/负载/遥测缺失检验是IT迁移的后续设计建议。",
+      "status": "proposed_evaluation_not_performed"
+    }
+  ],
+  "exclusions": [
+    "未读取私有研究计划",
+    "未修改HTML或Git",
+    "未声称训练或复现",
+    "不转载原论文PDF或图像",
+    "无token或凭据内容"
+  ]
+}

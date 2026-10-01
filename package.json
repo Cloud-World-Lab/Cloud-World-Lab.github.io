@@ -1,0 +1,11 @@
+{
+  "name": "it-world-model-learning",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "node scripts/check.mjs"
+  },
+  "devDependencies": { "marked": "18.0.14" }
+}

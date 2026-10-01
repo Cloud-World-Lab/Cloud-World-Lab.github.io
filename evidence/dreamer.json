@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "route_id": "dreamer",
+  "verified_on": "2026-10-01",
+  "verification_scope": "Read original papers and official author project/repository pages; no independent experiment reproduction.",
+  "content_file": "../content/dreamer.md",
+  "papers": [
+    {
+      "id": "dreamerv3",
+      "title_preprint": "Mastering Diverse Domains through World Models",
+      "title_published": "Mastering diverse control tasks through world models",
+      "authors": ["Danijar Hafner", "Jurgis Pasukonis", "Jimmy Ba", "Timothy Lillicrap"],
+      "arxiv_id": "2301.04104",
+      "first_submission": "2023-01-10",
+      "read_preprint_version": "v2",
+      "read_preprint_version_date": "2024-04-17",
+      "published_version_date": "2025-04-02",
+      "venue": "Nature 640, 647–653 (2025)",
+      "doi": "10.1038/s41586-025-08744-2",
+      "original_urls": {
+        "metadata": "https://arxiv.org/abs/2301.04104",
+        "preprint_pdf": "https://arxiv.org/pdf/2301.04104v2",
+        "published_paper": "https://www.nature.com/articles/s41586-025-08744-2",
+        "official_project": "https://danijar.com/project/dreamerv3/",
+        "official_code": "https://github.com/danijar/dreamerv3"
+      },
+      "sources_read": ["arXiv metadata", "arXiv v2 PDF", "Nature version of record HTML, including Methods and figure captions", "author project page", "official repository README"],
+      "status": "verified_primary_sources",
+      "claims": [
+        {
+          "id": "v3_dates",
+          "claim": "First arXiv submission 2023-01-10; v2 2024-04-17; Nature version of record published 2025-04-02.",
+          "evidence_location": "arXiv Submission history; Nature About this article / Version of record",
+          "url": "https://arxiv.org/abs/2301.04104",
+          "additional_url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_rssm",
+          "claim": "RSSM combines recurrent state and categorical stochastic representation; predicts observations, rewards and continuation. Posterior uses observations; imagination rolls the prior.",
+          "evidence_location": "Nature Learning algorithm / World model learning; Fig. 1",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_policy_imagination",
+          "claim": "Actor and critic learn from imagined abstract trajectories; deployment samples actor actions without lookahead search.",
+          "evidence_location": "Nature Critic learning, first paragraph and lambda-return equations",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_robustness",
+          "claim": "KL balancing, free bits, uniform mixture, signal transformations and return normalization address different training instabilities.",
+          "evidence_location": "Nature World model learning / Actor learning / Robust predictions; Fig. 6a",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_generality_unit",
+          "claim": "Shared algorithm hyperparameters across separately trained tasks do not imply one trained general-purpose model across domains.",
+          "evidence_location": "Nature Evaluation and future direction in Conclusion; official README task-specific training commands",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "additional_url": "https://github.com/danijar/dreamerv3",
+          "status": "verified_scope_interpretation"
+        },
+        {
+          "id": "v3_benchmarks",
+          "claim": "Eight domains and over 150 tasks with fixed hyperparameters; each Dreamer agent trained on one A100. Some DMLab baselines use ten times more environment data; Atari100k comparison notes EfficientZero protocol differences.",
+          "evidence_location": "Nature Evaluation / Benchmarks / Methods Evaluation; Fig. 4",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_minecraft_conditions",
+          "claim": "Minecraft uses abstract crafting actions and accelerated block breaking; no human data or adaptive curriculum. All training runs discover diamonds within 100 million environment steps; this is distinct from episode success rate.",
+          "evidence_location": "Nature Minecraft; Fig. 5 caption; Extended Data Fig. 2",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        },
+        {
+          "id": "v3_ablation_scope",
+          "claim": "Robustness ablations use 14 tasks; model size and replay ratio scaling are studied on Crafter and one DMLab task, not all domains.",
+          "evidence_location": "Nature Ablations / Scaling properties; Fig. 6",
+          "url": "https://www.nature.com/articles/s41586-025-08744-2",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "id": "dreamer4",
+      "title": "Training Agents Inside of Scalable World Models",
+      "authors": ["Danijar Hafner", "Wilson Yan", "Timothy Lillicrap"],
+      "arxiv_id": "2509.24527",
+      "first_submission": "2025-09-29",
+      "read_version": "v1",
+      "read_version_date": "2025-09-29",
+      "publication_status_as_read": "arXiv preprint; no journal acceptance claim inferred",
+      "pdf_pages": 32,
+      "original_urls": {
+        "metadata": "https://arxiv.org/abs/2509.24527",
+        "pdf": "https://arxiv.org/pdf/2509.24527v1",
+        "html": "https://arxiv.org/html/2509.24527v1",
+        "official_project": "https://danijar.com/project/dreamer4/"
+      },
+      "sources_read": ["arXiv metadata", "32-page v1 PDF, method/experiments/discussion and appendices", "arXiv HTML through section 4.2", "author project page"],
+      "html_conversion_note": "HTML truncates after section 4.2 and omits some table/section references; PDF used for sections 4.3–6 and appendices.",
+      "status": "verified_primary_sources",
+      "claims": [
+        {
+          "id": "v4_dates",
+          "claim": "v1 submitted 2025-09-29.",
+          "evidence_location": "arXiv Submission history and PDF page 1 header",
+          "url": "https://arxiv.org/abs/2509.24527",
+          "status": "verified"
+        },
+        {
+          "id": "v4_three_phases",
+          "claim": "World model pretraining, agent finetuning with policy/reward heads, and imagination training with policy/value heads are separate phases.",
+          "evidence_location": "Algorithm 1; Sections 3.1–3.3; PDF pages 4–8; Fig. 2",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_shortcut",
+          "claim": "Continuous causal video tokenizer; action-conditioned shortcut forcing; default K=4 sampling passes per generated frame.",
+          "evidence_location": "Sections 3.1–3.2; PDF pages 5–6; Fig. 2 on page 4",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_task_token_mask",
+          "claim": "Agent tokens attend to other modalities, but other modalities cannot attend back, preventing task input from directly conditioning dynamics predictions.",
+          "evidence_location": "Section 3.3 first paragraph; PDF page 6",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_frozen_rl",
+          "claim": "Main imagination training setting freezes transformer and updates policy/value heads using PMPO and behavioral prior.",
+          "evidence_location": "Section 3.3 Reinforcement learning, footnote 2 and Eq. 11; PDF pages 7–8",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_minecraft_dataset",
+          "claim": "2541 hours of VPT contractor gameplay, 360p/360x640, 20 FPS, paired low-level mouse/keyboard actions and events; fixed offline training dataset.",
+          "evidence_location": "Sections 4 and 4.1; Table 3; Appendix A.1; PDF pages 9–10, 16, 24–25",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_tasks_mixture",
+          "claim": "20 tasks annotated from existing events; linear evaluation prompt chain; 50% uniform and 50% relevant sequences, BC loss only relevant and dynamics loss only uniform.",
+          "evidence_location": "Section 4.1 Implementation; Tables 4 and 6; PDF pages 10 and 27",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_compute",
+          "claim": "2B parameters: 400M tokenizer and 1.6B dynamics; training on 256–1024 TPU-v5p; final Table 2 model 21.4 FPS on one H100.",
+          "evidence_location": "Section 4 experimental implementation; Section 4.4 Table 2; PDF pages 9 and 15",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_offline_success",
+          "claim": "1000 60-minute episodes, random world and empty inventory; Dreamer4 diamond 0.7%, iron pickaxe 29.0%; WM+BC iron pickaxe 16.9%.",
+          "evidence_location": "Section 4.1 Agent performance; Figs. 3–4; Table 7; PDF pages 9–12 and 28",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_action_labels",
+          "claim": "100 action-labeled hours within all 2541 video hours gives 85% normalized PSNR and 100% normalized SSIM relative to no-action/all-action endpoints. Metrics evaluate 16-step generations with 320 frames of context, not task success.",
+          "evidence_location": "Section 4.3; Fig. 7; PDF pages 14–15",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_action_extrapolation",
+          "claim": "Nether/End videos are included without their action labels; action labels provided only for Overworld. Thus transfer is to visually observed scenes, not unseen-video zero-shot transfer.",
+          "evidence_location": "Section 4.3 Action extrapolation; Fig. 7; Appendix A.1; PDF pages 14–15 and 25",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified_scope_interpretation"
+        },
+        {
+          "id": "v4_human_interaction_limits",
+          "claim": "14 of 16 model-interaction tasks accomplished; main Minecraft memory/context 9.6 seconds; inventory items sometimes unclear or change. Authors state world model is far from a full game clone.",
+          "evidence_location": "Section 4.2 Complex interactions; Section 6; Appendix Figs. 12–14; PDF pages 13 and 18",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified"
+        },
+        {
+          "id": "v4_robotics_scope",
+          "claim": "SOAR data: 180 video hours, 7D relative end-effector actions, 5 FPS, 90/10 split. Presented results are world-model interaction/generation, not a demonstrated real-robot policy success rate.",
+          "evidence_location": "Section 4.2; Fig. 6; Appendix A.1; PDF pages 13 and 25",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified_scope_interpretation"
+        },
+        {
+          "id": "v4_cascade_design",
+          "claim": "Table 2 uses a cascade of cumulative architecture/objective modifications; not a full independent-factor experiment.",
+          "evidence_location": "Section 4.4; Table 2; PDF pages 15–16",
+          "url": "https://arxiv.org/pdf/2509.24527v1",
+          "status": "verified_design_interpretation"
+        }
+      ]
+    }
+  ],
+  "optional_primary_readings": [
+    {"id": "planet", "title": "Learning Latent Dynamics for Planning from Pixels", "url": "https://arxiv.org/abs/1811.04551", "verification": "Original abstract and metadata checked; recommended as optional historical reading, not independently reproduced."},
+    {"id": "dreamer_original", "title": "Dream to Control: Learning Behaviors by Latent Imagination", "url": "https://arxiv.org/abs/1912.01603", "verification": "Original abstract and metadata checked; recommended as optional historical reading, not independently reproduced."}
+  ],
+  "analysis_not_paper_claims": [
+    "Action-conditioned prediction does not establish intervention-effect identifiability in confounded observational IT data.",
+    "Temporal causal attention and task-token isolation do not constitute causal identification guarantees.",
+    "IT migration requires action-aligned trajectories, delayed/failed operation records and evaluation of actual recovery outcomes; RCA labels alone do not supply these trajectories.",
+    "Model-internal policy improvement, predictive quality and real-system execution benefit require separate evaluation.",
+    "Production safety and cloud deployment benefits are not demonstrated by these game/simulation results."
+  ],
+  "reproduction": {"independent_training_run": false, "official_code_executed": false, "reported_numbers": "Author-reported and cross-checked against original sources, not independently reproduced"},
+  "privacy": {"private_research_files_read": false, "credentials_included": false, "remote_writes": false}
+}
