@@ -15,7 +15,7 @@ const endpoint=new Promise((res,rej)=>{
   chrome.stderr.on('data',data=>{const match=String(data).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(match){clearTimeout(timer);websocketUrl=match[1];res(match[1])}});
   chrome.on('exit',code=>rej(new Error(`Chrome exited early: ${code}`)));
 });
-const report={date:new Date().toISOString(),base,viewportChecks:[],navigationChecks:[],consoleErrors:[],screenshots:[]};
+const report={date:new Date().toISOString(),base,viewportChecks:[],navigationChecks:[],mathChecks:[],consoleErrors:[],screenshots:[]};
 let ws;
 try{
   ws=new WebSocket(await endpoint);
@@ -36,12 +36,22 @@ try{
     for(const id of ids){
       await evaluate(`location.hash=${JSON.stringify('#'+id)}; navigate();`);
       await command('Runtime.evaluate',{expression:'new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))',awaitPromise:true});
-      const state=await evaluate(`(()=>{const v=document.querySelector('.view.active');const overflow=Array.from(v.querySelectorAll('*')).filter(e=>{if(e.closest('.table-scroll,pre,svg'))return false;const r=e.getBoundingClientRect();return r.width>0&&(r.left<-.5||r.right>innerWidth+.5)}).map(e=>({tag:e.tagName,cls:e.className,text:e.textContent.slice(0,70)}));return {id:v.id,visibleViews:Array.from(document.querySelectorAll('.view')).filter(e=>getComputedStyle(e).display!=='none').length,documentWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,overflow,title:document.title,designNote:!!v.querySelector('.page-design'),tables:v.querySelectorAll('table').length}})()`);
+      const state=await evaluate(`(()=>{const v=document.querySelector('.view.active');const overflow=Array.from(v.querySelectorAll('*')).filter(e=>{const mathBlock=e.closest('.math-block');if(e.closest('.table-scroll,pre,svg')||mathBlock&&e!==mathBlock)return false;const r=e.getBoundingClientRect();return r.width>0&&(r.left<-.5||r.right>innerWidth+.5)}).map(e=>({tag:e.tagName,cls:e.className.baseVal??e.className,text:e.textContent.slice(0,70)}));return {id:v.id,visibleViews:Array.from(document.querySelectorAll('.view')).filter(e=>getComputedStyle(e).display!=='none').length,documentWidth:document.documentElement.scrollWidth,viewportWidth:innerWidth,overflow,title:document.title,designNote:!!v.querySelector('.page-design'),tables:v.querySelectorAll('table').length}})()`);
       if(state.id!==id||state.visibleViews!==1||state.documentWidth>state.viewportWidth+1||state.overflow.length||!state.designNote)throw new Error(`Layout or navigation failure: ${JSON.stringify({viewport,state})}`);
       report.viewportChecks.push({viewport:viewport.width,...state});
       const filename=`${viewport.width}-${id}.png`;
       const screenshot=await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
       writeFileSync(resolve(output,'screenshots',filename),Buffer.from(screenshot.data,'base64'));report.screenshots.push(filename);
+      if(id==='paper-dreamer'){
+        const formulas=await evaluate(`(()=>{const v=document.querySelector('.view.active');const maths=Array.from(v.querySelectorAll('math'));return {viewport:innerWidth,blocks:v.querySelectorAll('.math-block').length,mathML:maths.length,invalid:v.querySelectorAll('.katex-error').length,invisible:maths.filter(m=>{const r=m.getBoundingClientRect();return r.width<=0||r.height<=0}).length,locallyScrollable:Array.from(v.querySelectorAll('.math-block')).filter(m=>m.scrollWidth>m.clientWidth).length}})()`);
+        if(formulas.blocks!==9||formulas.mathML<9||formulas.invalid||formulas.invisible)throw new Error(`Formula rendering failure: ${JSON.stringify(formulas)}`);
+        report.mathChecks.push(formulas);
+        for(const [label,index] of [['reparameterization',3],['kl',8]]){
+          await evaluate(`document.querySelectorAll('.view.active .math-block')[${index}].scrollIntoView({behavior:'instant',block:'center'});new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+          const mathShot=await command('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});
+          const mathName=`${viewport.width}-${id}-${label}.png`;writeFileSync(resolve(output,'screenshots',mathName),Buffer.from(mathShot.data,'base64'));report.screenshots.push(mathName);
+        }
+      }
       if(viewport.width===390&&id.startsWith('paper-')){
         await evaluate(`(()=>{const t=document.querySelector('.view.active .table-scroll');if(t)t.scrollIntoView({behavior:'instant',block:'center'});else document.querySelector('.view.active .reading-article').scrollIntoView({behavior:'instant',block:'start'})})()`);
         await evaluate('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
@@ -63,7 +73,7 @@ try{
   report.reducedMotion=true;report.printView=printState;
   report.status=report.consoleErrors.length?'failed':'passed';
   writeFileSync(resolve(output,'browser-report.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({status:report.status,viewports:report.viewportChecks.length,navigations:report.navigationChecks.length,consoleErrors:report.consoleErrors.length,screenshots:report.screenshots.length,print:printState},null,2));
+  console.log(JSON.stringify({status:report.status,viewports:report.viewportChecks.length,navigations:report.navigationChecks.length,math:report.mathChecks,consoleErrors:report.consoleErrors.length,screenshots:report.screenshots.length,print:printState},null,2));
   if(report.consoleErrors.length)process.exitCode=1;
 }catch(error){report.status='failed';report.error=String(error);writeFileSync(resolve(output,'browser-report.json'),JSON.stringify(report,null,2)+'\n');throw error}
 finally{if(ws?.readyState===WebSocket.OPEN){ws.send(JSON.stringify({id:999999,method:'Browser.close'}));ws.close()}chrome.kill('SIGTERM')}

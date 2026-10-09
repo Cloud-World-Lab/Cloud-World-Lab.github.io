@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import katex from 'katex';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 let marked;
@@ -10,12 +11,24 @@ catch (error) {
   ({ marked } = await import(process.env.CWL_MARKED_PATH));
 }
 const groups = [
-  ['dreamer', ['route-dreamer', 'paper-dreamerv3', 'paper-dreamer4']],
+  ['dreamer', ['route-dreamer', 'paper-dreamer', 'paper-dreamerv3', 'paper-dreamer4']],
   ['jepa', ['route-jepa', 'paper-vjepa', 'paper-vjepa2', 'paper-vjepa21']],
   ['generative', ['route-generative', 'paper-diamond', 'paper-genie']],
   ['structured', ['route-structured', 'paper-gns', 'paper-routenet']],
 ];
 const escape = value => value.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const math = (expression, displayMode = false) => katex.renderToString(expression, {
+  output: 'mathml', displayMode, throwOnError: true, trust: false,
+});
+marked.use({ extensions: [{
+  name: 'inlineMath', level: 'inline',
+  start: src => src.indexOf('$'),
+  tokenizer(src) {
+    const match = /^\$([^$\n]+)\$/.exec(src);
+    if (match) return { type: 'inlineMath', raw: match[0], text: match[1] };
+  },
+  renderer: token => `<span class="math-inline">${math(token.text)}</span>`,
+}] });
 function render(text, id) {
   // The approved template already contains the corresponding mechanism diagrams.
   text = text.replace(/```mermaid\n[\s\S]*?```/g, '');
@@ -34,7 +47,9 @@ function render(text, id) {
     const target = href.startsWith('https://') ? ' target="_blank" rel="noopener noreferrer"' : '';
     return `<a href="${escape(href)}"${title ? ` title="${escape(title)}"` : ''}${target}>${label}</a>`;
   };
-  renderer.code = ({text, lang}) => `<pre class="${lang === 'mermaid' ? 'mechanism-text' : ''}"><code>${escape(text)}</code></pre>\n`;
+  renderer.code = ({text, lang}) => lang === 'math'
+    ? `<div class="math-block" role="region" aria-label="公式" tabindex="0">${math(text, true)}</div>\n`
+    : `<pre class="${lang === 'mermaid' ? 'mechanism-text' : ''}"><code>${escape(text)}</code></pre>\n`;
   renderer.html = ({text}) => { throw new Error(`Raw HTML in content is unsupported: ${text.slice(0,50)}`); };
   const html = marked.parse(text, { renderer, gfm:true, breaks:false });
   const toc = headings.filter(h => h.depth === 3).map(h => `<a href="#${id}/${h.slug}">${h.title}</a>`).join('');
@@ -60,7 +75,8 @@ for (let i=starts.length-1; i>=0; i--) {
     const designStart=block.indexOf('<aside class="page-design">');
     if (figureEnd < 9 || designStart < 0) throw new Error(`Missing layout landmark in ${id}`);
     const next=block.match(/<div class="read-next">[\s\S]*?<\/div>/)?.[0] || '';
-    block=block.slice(0,figureEnd)+articleMap.get(id)+next+'<p class="verification">原始论文与作者资料核验：2026-10-01。下文区分作者实验与 IT 迁移分析；本站未独立复现。<a href="evidence/'+groups.find(g=>g[1].includes(id))[0]+'.json">查看来源与条件记录</a></p>'+block.slice(designStart);
+    const verifiedOn=id==='paper-dreamer'?'2026-10-09':'2026-10-01';
+    block=block.slice(0,figureEnd)+articleMap.get(id)+next+'<p class="verification">原始论文与作者资料核验：'+verifiedOn+'。下文区分作者实验与 IT 迁移分析；本站未独立复现。<a href="evidence/'+groups.find(g=>g[1].includes(id))[0]+'.json">查看来源与条件记录</a></p>'+block.slice(designStart);
   } else {
     const figureEnd=block.indexOf('</figure>')+9;
     block=block.slice(0,figureEnd)+articleMap.get(id)+block.slice(figureEnd);
@@ -69,12 +85,12 @@ for (let i=starts.length-1; i>=0; i--) {
 }
 html=html.replaceAll('精选导读提纲','论文导读').replaceAll('导读提纲','完整导读').replaceAll('导读样章','完整导读');
 html=html.replaceAll('展开完整导读','论文导读');
-html=html.replace('九篇精选入口中，V-JEPA 2 是展开样章，其余是短提纲；这仍是网站设计原型，尚非完整论文库。','九篇精选导读解释机制、训练数据、实验条件与迁移边界；原始来源和证据位置可在各篇末尾查阅。');
-html=html.replace('当前为首次发布版本，四条路线和论文导读将在同一入口持续完善。','以四个问题入口串联九篇论文导读，关注可检验的环境预测与决策。');
+html=html.replace('九篇精选入口中，V-JEPA 2 是展开样章，其余是短提纲；这仍是网站设计原型，尚非完整论文库。','十篇精选导读解释机制、训练数据、实验条件与迁移边界；原始来源和证据位置可在各篇末尾查阅。');
+html=html.replace('当前为首次发布版本，四条路线和论文导读将在同一入口持续完善。','以四个问题入口串联十篇论文导读，关注可检验的环境预测与决策。');
 html=html.replace('本页按 v1 导读','按原论文核验');
 const css=readFileSync(resolve(root,'scripts/reading.css'),'utf8');
 html=html.replace('</style>',css+'\n</style>');
 const script=readFileSync(resolve(root,'scripts/navigation.js'),'utf8');
 html=html.replace(/<script>[\s\S]*?<\/script>/,`<script>\n${script}\n</script>`);
 writeFileSync(resolve(root,'index.html'),html);
-console.log(`Built 15 views: ${articleMap.size} expanded route / paper articles.`);
+console.log(`Built ${starts.length} views: ${articleMap.size} expanded route / paper articles.`);
