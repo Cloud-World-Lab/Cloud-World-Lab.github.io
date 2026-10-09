@@ -64,24 +64,49 @@ for (const [name, ids] of groups) {
 }
 let html = readFileSync(resolve(root,'templates/base.html'), 'utf8');
 const starts = [...html.matchAll(/<section class="view [^"]*" id="([^"]+)"/g)];
+const pageTitles = new Map(starts.map((view, index) => {
+  const end = starts[index + 1]?.index ?? html.indexOf('</main>', view.index);
+  const title = html.slice(view.index, end).match(/<h1>([^<]+)<\/h1>/)?.[1];
+  if (!title) throw new Error(`Missing page title: ${view[1]}`);
+  return [view[1], title];
+}));
+function paperLinks(ids, current = '') {
+  return ids.slice(1).map(id => `<a href="#${id}"${id === current ? ' class="active" aria-current="page"' : ''}>${escape(pageTitles.get(id))}</a>`).join('');
+}
+function seriesNavigation(ids, current = '') {
+  return `<nav class="series-navigation" aria-label="${escape(pageTitles.get(ids[0]))} 论文导航"><span class="series-label">阅读顺序</span><div class="series-links">${paperLinks(ids, current)}</div></nav>`;
+}
+function adjacentPapers(ids, current) {
+  const index = ids.indexOf(current);
+  const previous = index > 1 ? `<a href="#${ids[index - 1]}">上一篇：${escape(pageTitles.get(ids[index - 1]))}</a>` : '';
+  const next = index < ids.length - 1 ? `<a href="#${ids[index + 1]}">下一篇：${escape(pageTitles.get(ids[index + 1]))}</a>` : '';
+  return `<div class="read-next">${previous}${next}<a href="#${ids[0]}">路线目录</a></div>`;
+}
 for (let i=starts.length-1; i>=0; i--) {
   const start=starts[i].index;
   const end=i+1<starts.length ? starts[i+1].index : html.indexOf('</main>', start);
   let block=html.slice(start,end);
   const id=starts[i][1];
   if (!articleMap.has(id)) continue;
+  const [name, groupIds] = groups.find(group => group[1].includes(id));
+  block=block.replace('</header>', seriesNavigation(groupIds, id)+'</header>');
   if (id.startsWith('paper-')) {
     const figureEnd=block.indexOf('</figure>')+9;
     const designStart=block.indexOf('<aside class="page-design">');
     if (figureEnd < 9 || designStart < 0) throw new Error(`Missing layout landmark in ${id}`);
-    const next=block.match(/<div class="read-next">[\s\S]*?<\/div>/)?.[0] || '';
+    const next=adjacentPapers(groupIds, id);
     const verifiedOn=id==='paper-dreamer'?'2026-10-09':'2026-10-01';
-    block=block.slice(0,figureEnd)+articleMap.get(id)+next+'<p class="verification">原始论文与作者资料核验：'+verifiedOn+'。下文区分作者实验与 IT 迁移分析；本站未独立复现。<a href="evidence/'+groups.find(g=>g[1].includes(id))[0]+'.json">查看来源与条件记录</a></p>'+block.slice(designStart);
+    block=block.slice(0,figureEnd)+articleMap.get(id)+next+'<p class="verification">原始论文与作者资料核验：'+verifiedOn+'。下文区分作者实验与 IT 迁移分析；本站未独立复现。<a href="evidence/'+name+'.json">查看来源与条件记录</a></p>'+block.slice(designStart);
   } else {
     const figureEnd=block.indexOf('</figure>')+9;
     block=block.slice(0,figureEnd)+articleMap.get(id)+block.slice(figureEnd);
   }
   html=html.slice(0,start)+block+html.slice(end);
+}
+for (const [, ids] of groups) {
+  const card = new RegExp(`<a class="route-card ([^"]+)" href="#${ids[0]}">([\\s\\S]*?)<div class="card-bottom">([\\s\\S]*?)<\\/div><\\/a>`);
+  if (!card.test(html)) throw new Error(`Missing route card: ${ids[0]}`);
+  html=html.replace(card, (_, color, body, footer) => `<article class="route-card ${color}"><a class="route-card-main" href="#${ids[0]}">${body}</a><nav class="route-paper-links" aria-label="${escape(pageTitles.get(ids[0]))} 论文直达"><span class="series-label">直接阅读</span><div class="series-links">${paperLinks(ids)}</div></nav><a class="card-bottom" href="#${ids[0]}">${footer}</a></article>`);
 }
 html=html.replaceAll('精选导读提纲','论文导读').replaceAll('导读提纲','完整导读').replaceAll('导读样章','完整导读');
 html=html.replaceAll('展开完整导读','论文导读');

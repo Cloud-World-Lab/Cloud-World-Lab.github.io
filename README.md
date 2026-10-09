@@ -8,6 +8,8 @@ Cloud World Lab 的公开世界模型学习网站，沿用已认可的概览 / �
 
 网站有 16 个视图：概览、路线总览、4 条路线与 10 篇论文导读。四个入口是问题导向的阅读路径，可以重叠与组合。Dreamer 路线按初代 Dreamer（ICLR 2020）→ DreamerV3 → Dreamer4 阅读。
 
+研究路线总览卡片提供论文直达入口；各路线与论文顶部提供系列导航，论文底部可按顺序进入上一篇、下一篇。导航根据构建脚本中的路线顺序统一生成。
+
 正文位于 `content/`，原始来源、所读版本和证据位置位于 `evidence/`。`templates/base.html` 保留已认可的视觉结构与第三方图形声明；`scripts/build.mjs` 将 Markdown 编译进可离线使用的 `index.html`。内联 `$...$` 与 `math` 代码块在构建时通过 KaTeX 转为原生 MathML，阅读时无需加载公式脚本或网络字体。未经用户选择，本仓库没有为全部原创内容另行承诺开放许可。
 
 更新内容后，运行 `npm ci --ignore-scripts`、`npm run build`、`npm run check`。本地预览：`python3 -m http.server 8000`，打开 `http://localhost:8000/`。

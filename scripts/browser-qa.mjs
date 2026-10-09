@@ -15,7 +15,7 @@ const endpoint=new Promise((res,rej)=>{
   chrome.stderr.on('data',data=>{const match=String(data).match(/DevTools listening on (ws:\/\/[^\s]+)/);if(match){clearTimeout(timer);websocketUrl=match[1];res(match[1])}});
   chrome.on('exit',code=>rej(new Error(`Chrome exited early: ${code}`)));
 });
-const report={date:new Date().toISOString(),base,viewportChecks:[],navigationChecks:[],mathChecks:[],consoleErrors:[],screenshots:[]};
+const report={date:new Date().toISOString(),base,viewportChecks:[],navigationChecks:[],clickChecks:[],mathChecks:[],consoleErrors:[],screenshots:[]};
 let ws;
 try{
   ws=new WebSocket(await endpoint);
@@ -30,6 +30,15 @@ try{
   await command('Page.navigate',{url:base});
   for(let attempt=0;attempt<50;attempt++){if(await evaluate('document.readyState==="complete" && typeof validIds!=="undefined"'))break;await new Promise(r=>setTimeout(r,100));if(attempt===49)throw new Error('Site did not initialize')}
   const ids=await evaluate('Array.from(validIds)');
+  const clickPaths=[
+    ['routes','.route-paper-links a[href="#paper-dreamer"]','paper-dreamer',true],
+    ['routes','.route-card-main[href="#route-dreamer"]','route-dreamer',false],
+    ['route-dreamer','.series-navigation a[href="#paper-dreamer"]','paper-dreamer',true],
+    ['paper-dreamer','.series-navigation a[href="#paper-dreamerv3"]','paper-dreamerv3',true],
+    ['paper-dreamerv3','.series-navigation a[href="#paper-dreamer"]','paper-dreamer',true],
+    ['paper-dreamerv3','.read-next a[href="#paper-dreamer"]','paper-dreamer',false],
+    ['paper-dreamer4','.read-next a[href="#paper-dreamerv3"]','paper-dreamerv3',false],
+  ];
   const frames=[{width:1440,height:1000},{width:390,height:900},{width:320,height:900}];
   for(const viewport of frames){
     await command('Emulation.setDeviceMetricsOverride',{...viewport,deviceScaleFactor:1,mobile:viewport.width<650});
@@ -59,10 +68,24 @@ try{
         const tableName=`390-${id}-evidence.png`;writeFileSync(resolve(output,'screenshots',tableName),Buffer.from(shot.data,'base64'));report.screenshots.push(tableName);
       }
     }
+    for(const [from,selector,expected,firstScreen] of clickPaths){
+      await evaluate(`location.hash=${JSON.stringify('#'+from)};navigate();new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))`);
+      const fullSelector=`#${from} ${selector}`;
+      const visible=await evaluate(`(()=>{const a=document.querySelector(${JSON.stringify(fullSelector)});if(!a)return null;const r=a.getBoundingClientRect();return {top:r.top,bottom:r.bottom,width:r.width,height:r.height,viewportHeight:innerHeight,nested:!!a.parentElement.closest('a')}})()`);
+      if(!visible||visible.width<=0||visible.height<=0||visible.nested||firstScreen&&(visible.top<72||visible.bottom>visible.viewportHeight))throw new Error(`Paper entry is missing, nested or below first screen: ${JSON.stringify({from,selector,viewport:viewport.width,visible})}`);
+      const point=await evaluate(`(()=>{const a=document.querySelector(${JSON.stringify(fullSelector)});a.scrollIntoView({behavior:'instant',block:'center'});const r=a.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}})()`);
+      await command('Input.dispatchMouseEvent',{type:'mousePressed',button:'left',clickCount:1,...point});
+      await command('Input.dispatchMouseEvent',{type:'mouseReleased',button:'left',clickCount:1,...point});
+      await evaluate('new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))');
+      const destination=await evaluate(`({id:document.querySelector('.view.active').id,selected:document.querySelector('.view.active .series-navigation a[aria-current="page"]')?.getAttribute('href'),focused:document.activeElement.id})`);
+      if(destination.id!==expected||expected.startsWith('paper-')&&destination.selected!==`#${expected}`||destination.focused!==expected)throw new Error(`Click failed: ${JSON.stringify({from,selector,expected,destination})}`);
+      report.clickChecks.push({viewport:viewport.width,from,selector,firstScreen,...destination});
+    }
   }
   await command('Emulation.setDeviceMetricsOverride',{width:1440,height:1000,deviceScaleFactor:1,mobile:false});
   const links=await evaluate(`Array.from(document.querySelectorAll('a[href^="#"]')).filter(a=>!a.classList.contains('skip')).map(a=>a.getAttribute('href'))`);
-  for(const href of links){const state=await evaluate(`location.hash=${JSON.stringify(href)}; navigate(); ({id:document.querySelector('.view.active').id,hash:location.hash,focused:document.activeElement.id})`);const [id,anchor]=href.slice(1).split('/');if(state.id!==id||anchor&&state.focused!==`${id}--${anchor}`)throw new Error(`Broken navigation ${href}`);report.navigationChecks.push({href,...state})}
+  // Pace the full-site sweep to avoid Chrome's synthetic navigation flood limit.
+  for(const href of links){const state=await evaluate(`(async()=>{await new Promise(r=>setTimeout(r,100));location.hash=${JSON.stringify(href)};navigate();return {id:document.querySelector('.view.active').id,hash:location.hash,focused:document.activeElement.id}})()`);const [id,anchor]=href.slice(1).split('/');if(state.id!==id||anchor&&state.focused!==`${id}--${anchor}`)throw new Error(`Broken navigation ${href}: ${JSON.stringify(state)}`);report.navigationChecks.push({href,...state})}
   await evaluate('location.hash="#invalid-route";navigate()');
   if(await evaluate('location.hash')!=='#overview')throw new Error('Unknown-route recovery failed');
   await command('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
@@ -73,7 +96,7 @@ try{
   report.reducedMotion=true;report.printView=printState;
   report.status=report.consoleErrors.length?'failed':'passed';
   writeFileSync(resolve(output,'browser-report.json'),JSON.stringify(report,null,2)+'\n');
-  console.log(JSON.stringify({status:report.status,viewports:report.viewportChecks.length,navigations:report.navigationChecks.length,math:report.mathChecks,consoleErrors:report.consoleErrors.length,screenshots:report.screenshots.length,print:printState},null,2));
+  console.log(JSON.stringify({status:report.status,viewports:report.viewportChecks.length,navigations:report.navigationChecks.length,clicks:report.clickChecks.length,math:report.mathChecks,consoleErrors:report.consoleErrors.length,screenshots:report.screenshots.length,print:printState},null,2));
   if(report.consoleErrors.length)process.exitCode=1;
 }catch(error){report.status='failed';report.error=String(error);writeFileSync(resolve(output,'browser-report.json'),JSON.stringify(report,null,2)+'\n');throw error}
 finally{if(ws?.readyState===WebSocket.OPEN){ws.send(JSON.stringify({id:999999,method:'Browser.close'}));ws.close()}chrome.kill('SIGTERM')}
